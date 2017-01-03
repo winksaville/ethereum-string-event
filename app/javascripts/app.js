@@ -4,7 +4,10 @@ var testEvent;
 
 function tickle() {
   console.log("tickle");
-  testEvent.tickle.call(account, {from: account});
+  // You must use .sendTransaction using .call is a read only operation
+  // hence no log entry is created so no event is generated, txs @raineorshine
+  // [see](https://gitter.im/ConsenSys/truffle?at=586ba0d7c02c1a3959e0e6f8)
+  testEvent.tickle.sendTransaction(account, {from: account});
 }
 
 window.onload = function() {
@@ -21,7 +24,7 @@ window.onload = function() {
     // watch for changes
     var event = testEvent.StringEvent();
     event.watch(function(error, result){
-        console.log("testEvent.StringEvent: error=" + error + " result=" + result);
+        console.log("testEvent.StringEvent: error=" + error + " result.args.s=" + result.args.s);
     });
     console.log("getAccounts cb:- err=" + err);
   });
