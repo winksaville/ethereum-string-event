@@ -7,7 +7,11 @@ function tickle() {
   // You must use .sendTransaction using .call is a read only operation
   // hence no log entry is created so no event is generated, txs @raineorshine
   // [see](https://gitter.im/ConsenSys/truffle?at=586ba0d7c02c1a3959e0e6f8)
-  testEvent.tickle.sendTransaction(account, {from: account});
+  testEvent.tickle.sendTransaction(account, {from: account}).then(function() {
+      console.log("tickle transaction completed");
+  }).catch(function(e) {
+      console.log("tickle transaction failed e=" + e);
+  })
 }
 
 window.onload = function() {
