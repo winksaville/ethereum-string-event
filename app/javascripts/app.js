@@ -22,9 +22,11 @@ window.onload = function() {
     testEvent = TestEvent.deployed();
 
     // watch for changes
-    var event = testEvent.StringEvent();
-    event.watch(function(error, result){
+    var event = testEvent.StringEvent().watch(function(error, result) {
         console.log("testEvent.StringEvent: error=" + error + " result.args.s=" + result.args.s);
+    });
+    var event = testEvent.allEvents().watch(function(error, result) {
+        console.log("testEvent.allEvents: error=" + error + " result.args.s=" + result.args.s);
     });
     console.log("getAccounts cb:- err=" + err);
   });
