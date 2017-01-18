@@ -1,16 +1,25 @@
 var account;
 var testEvent;
 
-
 function tickle() {
   console.log("tickle");
   // You must use tickle or tickle.sendTransaction using tickel.call is a read only operation
   // hence no log entry is created so no event is generated, txs @raineorshine
   // [see](https://gitter.im/ConsenSys/truffle?at=586ba0d7c02c1a3959e0e6f8)
-  testEvent.tickle(account, {from: account}).then(function() {
-      console.log("tickle completed");
+  testEvent.tickle({from: account}).then(function(hash) {
+    // If the transaction was succesful its hash is returned
+    // which can be used to get the TransactionReceipt which
+    // has several fields of which gasUsed is one.
+    console.log("tickle hash=" + hash);
+    web3.eth.getTransactionReceipt(hash, function (error, receipt) {
+      if (error == null) {
+        console.log("tickle getTransactionReceipt success gasUsed=" + receipt.gasUsed);
+      } else {
+        console.log("tickle getTransactionReceipt error=" + error);
+      }
+    });
   }).catch(function(e) {
-      console.log("tickle failed e=" + e);
+    console.log("tickle failed e=" + e);
   })
 }
 
